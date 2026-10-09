@@ -56,5 +56,41 @@ async function buscaCachorro(url) {
     } finally {
         // remove a classe de carregamento independentemente de ter dado certo ou errado
         dogArea.classList.remove("loading");
+
+        //Vamos verificar se a API retornou erro
+      if (data.status === "error"){
+         //mostra a mensagem de erro na tela
+         //breedName - Elemento HTML
+         //.textContent - Propriedade que define o texto do elemento 
+         //data - Objeto com os dados recebidos da API
+         //.message - Propriedade que contém a mensagem ou URL
+         breedName.textContent = data.message;
+         //remove a imagem
+         dogImage.src = "";
+         //execução da função
+         return;
+      }
+
+      //coloca a imagem do cachorro na tela
+      // o src define qual imagem será exibida 
+      dogImage.src = data.message;
+
+      // extrai o nome da raça da URL da imagem
+      // exemplo da URL;
+      // http://localhost:3000/fotos/husky/1.jpg
+
+      //separa a URL em partes usando "/"
+      const partes = data.message.split("/");
+
+      //pega a posição 5 do array
+      // que corresponde ao nome da raça
+      const raca = partes[5]
+
+      //coloca a primeira letra maiúscula
+      // ex: husky --> Husky
+      breedName.textContent = 
+      raca.charAt(0).toUpperCase() + raca.slice(1);
+      
+
     }
 }
